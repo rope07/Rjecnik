@@ -7,6 +7,8 @@ __pycache__/
 *.so
 
 Rječnik.exe
+*.db
+*.ico
 
 # Distribution / packaging
 .Python
