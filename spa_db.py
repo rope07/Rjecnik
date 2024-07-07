@@ -52,7 +52,8 @@ def search_words(lookup_record):
     conn.create_collation("SPANISH", spanish_collation)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT rowid, * FROM dictionary WHERE spa_word like ? ORDER BY spa_word COLLATE SPANISH", (lookup_record,))
+    cursor.execute("SELECT rowid, * FROM dictionary WHERE spa_word like ? ORDER BY spa_word COLLATE SPANISH", 
+                   (lookup_record, lookup_record))
     
     words = cursor.fetchall()
     conn.commit()
