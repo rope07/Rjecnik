@@ -4,10 +4,6 @@ db_path = 'Dictionary/Databases/cze_dictionary.db'
 
 def czech_collation(str1, str2):
     czech_order = " aábcčdďeéěfghchiíjklmnňoópqrřsštťuúůvwxyýzž"
-
-    def transform_string(s):
-        s = s.replace('ch', 'hž')  # Use a character or sequence that is not in the Czech alphabet
-        return s
     
     # Normalize input strings to lower case
     str1 = str1.lower()
