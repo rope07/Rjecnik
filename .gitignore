@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+Rječnik.exe
+
 # Distribution / packaging
 .Python
 build/
