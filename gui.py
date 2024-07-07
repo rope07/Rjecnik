@@ -7,7 +7,7 @@ import cze_db as cze_db
 
 import math
 
-def first_menu():
+def start_app():
     root = Tk()
     root.title("Odabir rječnika")
 
