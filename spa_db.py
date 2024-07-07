@@ -61,7 +61,7 @@ def search_croatian(lookup_record):
     conn.create_collation("SPANISH", spanish_collation)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT rowid, * FROM dictionary WHERE cro_word like ? ORDER BY spa_word COLLATE SPANISH", (lookup_record,))
+    cursor.execute("SELECT rowid, * FROM dictionary WHERE cro_word like '%' || ? || '%' ORDER BY spa_word COLLATE SPANISH", (lookup_record,))
     
     words = cursor.fetchall()
     conn.commit()
