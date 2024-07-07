@@ -107,7 +107,7 @@ def populate_treeview(treeview, lang):
         treeview.insert(parent='', index='end', iid=count, text='', 
                         values=(record[0], record[2], record[3], record[4], record[5]), tags=('row',))
         
-def search_words(treeview, lang, search, search_entry):
+def search_words(treeview, lang, search, search_entry, cro):
     if lang == 'spa':
         db = spa_db
     elif lang == 'cze':
@@ -119,13 +119,22 @@ def search_words(treeview, lang, search, search_entry):
     for word in treeview.get_children():
             treeview.delete(word)
 
-    words = db.search_words(lookup_record)
-    if not words:
-        messagebox.showinfo("Riječ ne postoji", f"Riječ {lookup_record} ne postoji u rječniku.")
-    else:
-        for count, record in enumerate(words):
-            treeview.insert(parent='', index='end', iid=count, text='', 
-                            values=(record[0], record[2], record[3], record[4], record[5]), tags=('row',))
+    if cro is None:
+        words = db.search_words(lookup_record)
+        if not words:
+            messagebox.showinfo("Riječ ne postoji", f"Riječ {lookup_record} ne postoji u rječniku.")
+        else:
+            for count, record in enumerate(words):
+                treeview.insert(parent='', index='end', iid=count, text='', 
+                                values=(record[0], record[2], record[3], record[4], record[5]), tags=('row',))
+    elif cro == 'cro':
+        words = db.search_croatian(lookup_record)
+        if not words:
+            messagebox.showinfo("Riječ ne postoji", f"Riječ {lookup_record} ne postoji u rječniku.")
+        else:
+            for count, record in enumerate(words):
+                treeview.insert(parent='', index='end', iid=count, text='', 
+                                values=(record[0], record[2], record[3], record[4], record[5]), tags=('row',))
         
 def count_words(lang):
     if lang == 'spa':

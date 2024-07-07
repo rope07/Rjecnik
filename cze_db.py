@@ -1,6 +1,6 @@
 import sqlite3
 
-db_path = 'Dictionary/Databases/cze_dictionary.db'
+db_path = 'Databases/cze_dictionary.db'
 
 def czech_collation(str1, str2):
     czech_order = " aábcčdďeéěfghchiíjklmnňoópqrřsštťuúůvwxyýzž"
@@ -21,6 +21,27 @@ def czech_collation(str1, str2):
     
     # If one string is a prefix of the other, the shorter string is considered smaller
     return len(str1) - len(str2)
+
+def croatian_collation(str1, str2):
+    croatian_order = " aabcčćdđdefghijklmnoprstuvzž"
+
+    def transform_string(s):
+        s = s.replace('dž', 'dz~')  # Use a character sequence that comes after 'dz'
+        s = s.replace('lj', 'l~')   # Use a character sequence that comes after 'l'
+        s = s.replace('nj', 'n~')   # Use a character sequence that comes after 'n'
+        return s
+    
+    transformed_str1 = transform_string(str1)
+    transformed_str2 = transform_string(str2)
+
+    
+    for c1, c2 in zip(transformed_str1, transformed_str2):
+        if c1 != c2:
+            pos1 = croatian_order.find(c1)
+            pos2 = croatian_order.find(c2)
+            return pos1 - pos2
+    
+    return len(transformed_str1) - len(transformed_str2)
 
 def create_table():
     conn = sqlite3.connect(db_path)
@@ -56,6 +77,18 @@ def search_words(lookup_record):
     cursor = conn.cursor()
 
     cursor.execute("SELECT rowid, * FROM dictionary WHERE cze_word like ? ORDER BY cze_word COLLATE CZECH", (lookup_record,))
+    
+    words = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return words
+
+def search_croatian(lookup_record):
+    conn = sqlite3.connect(db_path)
+    conn.create_collation("CROATIAN", croatian_collation)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT rowid, * FROM dictionary WHERE cro_word like ? ORDER BY cro_word COLLATE CROATIAN", (lookup_record,))
     
     words = cursor.fetchall()
     conn.commit()

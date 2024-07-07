@@ -157,6 +157,7 @@ def setup_menus(root, treeview, lang):
     search_menu = Menu(my_menu, tearoff=0)
     my_menu.add_cascade(label="Pretraži", menu=search_menu)
     search_menu.add_command(label="Pretraži", command=lambda:setup_search_words(root, treeview, lang))
+    search_menu.add_command(label="Pretraži hrvatski", command=lambda:setup_search_words_croatian(root, treeview, lang, "cro"))
     search_menu.add_separator()
 
     search_menu.add_command(label="Reset", command=lambda:events.populate_treeview(treeview, lang))
@@ -172,9 +173,25 @@ def setup_search_words(root, treeview, lang):
     search_entry = Entry(search_frame, font=("Helvetica", 16))
     search_entry.pack(pady=20, padx=20)
     search_entry.focus()
-    search_entry.bind('<Return>', lambda event: events.search_words(treeview, lang, search, search_entry))
+    search_entry.bind('<Return>', lambda event: events.search_words(treeview, lang, search, search_entry, None))
 
-    search_button = Button(search, text="Pretraži", command=lambda:events.search_words(treeview, lang, search, search_entry))
+    search_button = Button(search, text="Pretraži", command=lambda:events.search_words(treeview, lang, search, search_entry, None))
+    search_button.pack(padx=20, pady=20)
+
+def setup_search_words_croatian(root, treeview, lang, cro):
+    search = Toplevel(root)
+    search.title("Pretraži riječ")
+    search.geometry("400x200")
+
+    search_frame = LabelFrame(search, text="Riječ")
+    search_frame.pack(padx=10, pady=10)
+
+    search_entry = Entry(search_frame, font=("Helvetica", 16))
+    search_entry.pack(pady=20, padx=20)
+    search_entry.focus()
+    search_entry.bind('<Return>', lambda event: events.search_words(treeview, lang, search, search_entry, cro))
+
+    search_button = Button(search, text="Pretraži", command=lambda:events.search_words(treeview, lang, search, search_entry, cro))
     search_button.pack(padx=20, pady=20)
 
 def bind_return_key(entries, command):
