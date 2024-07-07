@@ -9,8 +9,8 @@ def czech_collation(str1, str2):
     str1 = str1.lower()
     str2 = str2.lower()
     
-    str1 = str1.replace('ch', 'hžž')
-    str2 = str2.replace('ch', 'hžž')
+    str1 = str1.replace('ch', 'hžžžž')
+    str2 = str2.replace('ch', 'hžžžž')
     
     # Compare the strings character by character based on Czech alphabet order
     for c1, c2 in zip(str1, str2):
