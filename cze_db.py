@@ -53,7 +53,7 @@ def search_words(lookup_record):
     conn.create_collation("CZECH", czech_collation)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT rowid, * FROM dictionary WHERE cze_word like ? ORDER BY cze_word COLLATE CZECH", (lookup_record,))
+    cursor.execute("SELECT rowid, * FROM dictionary WHERE cze_word like '%' || ? || '%' ORDER BY cze_word COLLATE CZECH", (lookup_record,))
     
     words = cursor.fetchall()
     conn.commit()
